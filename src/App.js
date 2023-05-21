@@ -4,6 +4,7 @@ const App = () => {
   const [images, setImages] = useState(null);
   const [value, setValue] = useState("");
   const [error, setError] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const surpriseOptions = [
     "A blue ostrich eating melon",
@@ -39,8 +40,26 @@ const App = () => {
 
       const response = await fetch("http://localhost:8000/images", options);
       const data = await response.json();
-      console.log(data);
       setImages(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const uploadImage = async (e) => {
+    const formData = new FormData();
+    formData.append("file", e.target.files[0]);
+    setSelectedImage(e.target.files[0]);
+
+    try {
+      const options = {
+        method: "POST",
+        body: formData,
+      };
+
+      const response = await fetch("http://localhost:8000/upload", options);
+      const data = await response.json();
+      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -63,6 +82,20 @@ const App = () => {
           />
           <button onClick={getImages}>Generate</button>
         </div>
+        <p className="extra-info">
+          Or,
+          <span>
+            <label htmlFor="files"> upload an image </label>
+            <input
+              onChange={uploadImage}
+              id="files"
+              accept="image/*"
+              type="file"
+              hidden
+            />
+          </span>
+          to edit.
+        </p>
         {error && <p>{error}</p>}
       </section>
       <section className="image-section">
