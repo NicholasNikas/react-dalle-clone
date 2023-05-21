@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+const App = () => {
+  const surpriseOptions = [
+    "A blue ostrich eating melon",
+    "A matisse style shark on the telephone",
+    "A pineapple sunbathing on an island",
+  ];
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <div className="app">
+      <section className="search-section">
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Start with a detailed description
+          <span className="surprise">Surprise me</span>
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <div className="input-container">
+          <input placeholder="An impressionist oil painting of a sunflower in a purple vase..." />
+          <button>Generate</button>
+        </div>
+      </section>
+      <section className="image-section"></section>
     </div>
   );
-}
+};
 
 export default App;
