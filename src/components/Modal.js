@@ -1,6 +1,11 @@
 import { useState, useRef } from 'react'
 
-const Modal = ({ setModalOpen, setSelectedImage, selectedImage }) => {
+const Modal = ({
+  setModalOpen,
+  setSelectedImage,
+  selectedImage,
+  generateVariations,
+}) => {
   const [error, setError] = useState(null)
   const ref = useRef(null)
 
@@ -10,15 +15,12 @@ const Modal = ({ setModalOpen, setSelectedImage, selectedImage }) => {
   }
 
   const checkSize = () => {
-    console.log(ref.current.width)
-    console.log(ref.current.height)
     if (ref.current.width == 256 && ref.current.height == 256) {
+      generateVariations()
     } else {
       setError('Error: Choose 256x256 image')
     }
   }
-
-  console.log(selectedImage)
 
   return (
     <div className='modal'>
