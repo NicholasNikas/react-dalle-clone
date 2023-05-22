@@ -1,10 +1,12 @@
 import { useState } from "react";
+import Modal from "./components/Modal.js";
 
 const App = () => {
   const [images, setImages] = useState(null);
   const [value, setValue] = useState("");
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const surpriseOptions = [
     "A blue ostrich eating melon",
@@ -49,6 +51,7 @@ const App = () => {
   const uploadImage = async (e) => {
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
+    setModalOpen(true);
     setSelectedImage(e.target.files[0]);
 
     try {
@@ -64,6 +67,8 @@ const App = () => {
       console.error(error);
     }
   };
+
+  console.log(selectedImage);
 
   return (
     <div className="app">
@@ -85,7 +90,10 @@ const App = () => {
         <p className="extra-info">
           Or,
           <span>
-            <label htmlFor="files"> upload an image </label>
+            <label className="upload-label" htmlFor="files">
+              {" "}
+              upload an image{" "}
+            </label>
             <input
               onChange={uploadImage}
               id="files"
@@ -97,6 +105,15 @@ const App = () => {
           to edit.
         </p>
         {error && <p>{error}</p>}
+        {modalOpen && (
+          <div className="overlay">
+            <Modal
+              setModalOpen={setModalOpen}
+              setSelectedImage={setSelectedImage}
+              selectedImage={selectedImage}
+            />
+          </div>
+        )}
       </section>
       <section className="image-section">
         {images?.map((image, _index) => (
